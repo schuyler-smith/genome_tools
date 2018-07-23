@@ -15,8 +15,9 @@ assemb = open(sys.argv[1], 'rU')
 
 for sequence in SeqIO.parse(assemb, "fasta"):
         barcode = sequence.description.rsplit(':', 1)[0].split(";")[0].split("=")[1]
-        sequence.id = sequence.id.rsplit(':', 1)[0].split("_")[1]
         sequence.description = sequence.description.rsplit(';', 1)[0].split(";")[-1]
+        sequence.id = sequence.id.rsplit(':', 1)[0].split("_")[1] + ";" + sequence.description
+        sequence.description = ""
         sequence.name = sequence.name.rsplit(':', 1)[0].split("_")[1]
         fout = open('%s/%s.fasta' %(out_dir,barcode.split('.fasta')[0]), 'a')
         SeqIO.write(sequence, fout, 'fasta')
